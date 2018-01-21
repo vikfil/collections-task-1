@@ -7,6 +7,7 @@ import org.junit.runners.JUnit4;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -58,7 +59,13 @@ public class RangeTest {
 
     @Test
     public void iteratorGeneratesCharactersForCustomType() {
-        final Range<Character> rangePoints = Range.of('a', 'd', prev -> (char) (prev + 1));
+        final Range<Character> rangePoints = Range.of('a', 'd', new Function<Character, Character>() {
+            @Override
+            public Character apply(Character character) {
+                return (char) (character + 1);
+            }
+        });
+
         final Iterator<Character> iterator = rangePoints.iterator();
         final List<Character> expectedCharacters = Arrays.asList('a', 'b', 'c', 'd');
         for (Character character : expectedCharacters) {
