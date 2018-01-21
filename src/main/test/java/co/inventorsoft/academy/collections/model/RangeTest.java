@@ -49,10 +49,10 @@ public class RangeTest {
 
     @Test
     public void iteratorGeneratesIntegersIn01Step() {
-        Range<Double> integerRange = Range.of(0.1, 0.5);
-        final List<Double> expectedElements = Arrays.asList(0.1, 0.2, 0.3, 0.4, 0.5);
-        assertEquals(5, integerRange.size());
-        for (Double number : integerRange) {
+        Range<Float> doubleRange = Range.of(0.1f, 0.5f);
+        final List<Float> expectedElements = Arrays.asList(0.1f, 0.2f, 0.3f, 0.4f, 0.5f);
+        assertEquals(5, doubleRange.size());
+        for (Float number : doubleRange) {
             assertTrue(expectedElements.contains(number));
         }
     }
