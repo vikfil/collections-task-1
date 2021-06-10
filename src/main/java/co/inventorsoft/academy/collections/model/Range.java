@@ -108,8 +108,7 @@ public class Range<T> implements Set<T> {
                 continue;
             }
             resizeIfNeeded();
-            array[size] = (T) o;
-            size++;
+            add((T) o);
         }
         return true;
     }
@@ -148,53 +147,74 @@ public class Range<T> implements Set<T> {
         size = 0;
     }
 
-    /**
-     * Method created a collection which represents a range of number based classes.
-     * Float and double numbers work with one digit precision after comma.
-     * @param a first element in the range
-     * @param b last element in the range(included)
-     * @param <T> all number based classes
-     * @return collection based on collection framework’s Set interface
-     */
-    public static <T extends Number> Range<T> of(T a, T b) {
-        Range<Number> range = new Range<>();
-        if (a.equals(b)) {
-            return (Range<T>) range;
+    public static Range<Byte> of(Byte low, Byte high) {
+        Range<Byte> range = new Range<>();
+        if (low.equals(high)) {
+            return range;
         }
-        if (a instanceof Double || a instanceof Float) {
-            double precision = 0.1;
-            double low = BigDecimal.valueOf(a.doubleValue()).setScale(1, RoundingMode.HALF_UP).doubleValue();
-            double high = BigDecimal.valueOf(b.doubleValue()).setScale(1, RoundingMode.HALF_UP).doubleValue();
-
-            for (double i = low; i <= high; i += precision){
-                double number = BigDecimal.valueOf(i).setScale(1, RoundingMode.HALF_UP).doubleValue();
-                if (a instanceof Float) {
-                    range.add((float) number);
-                } else {
-                    range.add(number);
-                }
-            }
-        } else {
-            addNumberClassWithoutPrecision(range, a, b);
+        for (byte i = low; i <= high; i++) {
+            range.add(i);
         }
-        return (Range<T>) range;
+        return range;
     }
 
-    private static  <T extends Number> Range<T> addNumberClassWithoutPrecision(Range<Number> obj, T a, T b) {
-        long low = a.longValue();
-        long high = b.longValue();
-        for (long i = low; i <= high; i++) {
-            if (a instanceof Byte) {
-                obj.add((byte)i);
-            } else if (a instanceof Short) {
-                obj.add((short)i);
-            } else if (a instanceof Integer) {
-                obj.add((int)i);
-            } else {
-                obj.add(i);
-            }
+    public static Range<Short> of(Short low, Short high) {
+        Range<Short> range = new Range<>();
+        if (low.equals(high)) {
+            return range;
         }
-        return (Range<T>) obj;
+        for (short i = low; i <= high; i++) {
+            range.add(i);
+        }
+        return range;
+    }
+
+    public static Range<Integer> of(Integer low, Integer high) {
+        Range<Integer> range = new Range<>();
+        if (low.equals(high)) {
+            return range;
+        }
+        for (int i = low; i <= high; i++) {
+            range.add(i);
+        }
+        return range;
+    }
+
+    public static Range<Long> of(Long low, Long high) {
+        Range<Long> range = new Range<>();
+        if (low.equals(high)) {
+            return range;
+        }
+        for (long i = low; i <= high; i++) {
+            range.add(i);
+        }
+        return range;
+    }
+
+    public static Range<Float> of(Float low, Float high) {
+        Range<Float> range = new Range<>();
+        if (low.equals(high)) {
+            return range;
+        }
+        float precision = 0.1f;
+        for (float i = low; i <= high; i += precision) {
+            float number = BigDecimal.valueOf(i).setScale(1, RoundingMode.HALF_UP).floatValue();
+            range.add(number);
+        }
+        return range;
+    }
+
+    public static Range<Double> of(Double low, Double high) {
+        Range<Double> range = new Range<>();
+        if (low.equals(high)) {
+            return range;
+        }
+        double precision = 0.1;
+        for (double i = low; i <= high; i += precision) {
+            double number = BigDecimal.valueOf(i).setScale(1, RoundingMode.HALF_UP).doubleValue();
+            range.add(number);
+        }
+        return range;
     }
 
     /**
@@ -232,4 +252,5 @@ public class Range<T> implements Set<T> {
         }
     }
 }
+
 
