@@ -151,57 +151,27 @@ public class Range<T> implements Set<T> {
     }
 
     public static Range<Byte> of(Byte low, Byte high) {
-        return Range.of(low, high, new Function<Byte, Byte>() {
-            @Override
-            public Byte apply(Byte aByte) {
-                return ++aByte;
-            }
-        });
+        return Range.of(low, high, aByte -> ++aByte);
     }
 
     public static Range<Short> of(Short low, Short high) {
-        return Range.of(low, high, new Function<Short, Short>() {
-            @Override
-            public Short apply(Short aShort) {
-                return ++aShort;
-            }
-        });
+        return Range.of(low, high, aShort -> ++aShort);
     }
 
     public static Range<Integer> of(Integer low, Integer high) {
-        return Range.of(low, high, new Function<Integer, Integer>() {
-            @Override
-            public Integer apply(Integer integer) {
-                return ++integer;
-            }
-        });
+        return Range.of(low, high, integer -> ++integer);
     }
 
     public static Range<Long> of(Long low, Long high) {
-        return Range.of(low, high, new Function<Long, Long>() {
-            @Override
-            public Long apply(Long aLong) {
-                return ++aLong;
-            }
-        });
+        return Range.of(low, high, aLong -> ++aLong);
     }
 
     public static Range<Float> of(Float low, Float high) {
-        return Range.of(low, high, new Function<Float, Float>() {
-            @Override
-            public Float apply(Float aFloat) {
-                return aFloat + 0.1f;
-            }
-        });
+        return Range.of(low, high, aFloat -> aFloat + 0.1f);
     }
 
     public static Range<Double> of(Double low, Double high) {
-        return Range.of(low, high, new Function<Double, Double>() {
-            @Override
-            public Double apply(Double aDouble) {
-                return aDouble + 0.1;
-            }
-        });
+        return Range.of(low, high, aDouble -> aDouble + 0.1);
     }
 
     /**
