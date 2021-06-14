@@ -2,7 +2,10 @@ package co.inventorsoft.academy.collections.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.function.Function;
 
 public class Range<T> implements Set<T> {
@@ -148,73 +151,57 @@ public class Range<T> implements Set<T> {
     }
 
     public static Range<Byte> of(Byte low, Byte high) {
-        Range<Byte> range = new Range<>();
-        if (low.equals(high)) {
-            return range;
-        }
-        for (byte i = low; i <= high; i++) {
-            range.add(i);
-        }
-        return range;
+        return Range.of(low, high, new Function<Byte, Byte>() {
+            @Override
+            public Byte apply(Byte aByte) {
+                return ++aByte;
+            }
+        });
     }
 
     public static Range<Short> of(Short low, Short high) {
-        Range<Short> range = new Range<>();
-        if (low.equals(high)) {
-            return range;
-        }
-        for (short i = low; i <= high; i++) {
-            range.add(i);
-        }
-        return range;
+        return Range.of(low, high, new Function<Short, Short>() {
+            @Override
+            public Short apply(Short aShort) {
+                return ++aShort;
+            }
+        });
     }
 
     public static Range<Integer> of(Integer low, Integer high) {
-        Range<Integer> range = new Range<>();
-        if (low.equals(high)) {
-            return range;
-        }
-        for (int i = low; i <= high; i++) {
-            range.add(i);
-        }
-        return range;
+        return Range.of(low, high, new Function<Integer, Integer>() {
+            @Override
+            public Integer apply(Integer integer) {
+                return ++integer;
+            }
+        });
     }
 
     public static Range<Long> of(Long low, Long high) {
-        Range<Long> range = new Range<>();
-        if (low.equals(high)) {
-            return range;
-        }
-        for (long i = low; i <= high; i++) {
-            range.add(i);
-        }
-        return range;
+        return Range.of(low, high, new Function<Long, Long>() {
+            @Override
+            public Long apply(Long aLong) {
+                return ++aLong;
+            }
+        });
     }
 
     public static Range<Float> of(Float low, Float high) {
-        Range<Float> range = new Range<>();
-        if (low.equals(high)) {
-            return range;
-        }
-        float precision = 0.1f;
-        for (float i = low; i <= high; i += precision) {
-            float number = BigDecimal.valueOf(i).setScale(1, RoundingMode.HALF_UP).floatValue();
-            range.add(number);
-        }
-        return range;
+        return Range.of(low, high, new Function<Float, Float>() {
+            @Override
+            public Float apply(Float aFloat) {
+                return aFloat + 0.1f;
+            }
+        });
     }
 
     public static Range<Double> of(Double low, Double high) {
-        Range<Double> range = new Range<>();
-        if (low.equals(high)) {
-            return range;
-        }
-        double precision = 0.1;
-        for (double i = low; i <= high; i += precision) {
-            double number = BigDecimal.valueOf(i).setScale(1, RoundingMode.HALF_UP).doubleValue();
-            range.add(number);
-        }
-        return range;
+        return Range.of(low, high, new Function<Double, Double>() {
+            @Override
+            public Double apply(Double aDouble) {
+                return aDouble + 0.1;
+            }
+        });
     }
 
     /**
@@ -227,6 +214,9 @@ public class Range<T> implements Set<T> {
      */
     public static <T extends Comparable<T>> Range<T> of (T a, T b, Function<T, T> func) {
         Range<T> range = new Range<>();
+        if (a.compareTo(b) == 0) {
+            return range;
+        }
         while (a.compareTo(b) != 0) {
             range.add(a);
             a = func.apply(a);
